@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float health;
 
     // Start is called before the first frame update
     void Start()
@@ -14,19 +15,14 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (gameObject.GetComponent<Collider2D>().IsTouchingLayers(6))
-        // {
-        //     Destroy(gameObject);
-        //     Debug.Log("Reached");
-        // }
     }
 
-    private void FixedUpdate()
+    public void takeDamage(float damage)
     {
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("WORRK");
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

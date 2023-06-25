@@ -7,7 +7,9 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float lifeSpan;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private int damage;
     private Vector3 bulletPath;
+    public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +20,10 @@ public class Bullet : MonoBehaviour
         transform.position = Player.Instance.transform.position;
         bulletPath = (mousePos - transform.position).normalized;
         bulletPath *= bulletSpeed;
+        rb.velocity = (Vector2)bulletPath;
+
 
         StartCoroutine(DestroySelf());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private IEnumerator DestroySelf()
@@ -33,8 +32,13 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        transform.position += bulletPath;
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            enemy.takeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
