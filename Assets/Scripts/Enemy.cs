@@ -8,12 +8,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float health;
     [SerializeField] private float speed;
     [SerializeField] private float damageDealt;
+    EnemySpawner enemySpawner;
     private Vector2 direction;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        enemySpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            enemySpawner.decreaseNumEnemies();
         }
     }
 

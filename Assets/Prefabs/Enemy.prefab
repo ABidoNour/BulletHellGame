@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  speed: 21
+  speed: 18
   damageDealt: 10
   rb: {fileID: 8627311812995812236}
 --- !u!61 &6690625992448131522
