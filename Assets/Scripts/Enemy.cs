@@ -8,44 +8,32 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float health;
     [SerializeField] private float speed;
     [SerializeField] private float damageDealt;
-    EnemySpawner enemySpawner;
-    private Vector2 direction;
+    private Vector2 _direction;
     public Rigidbody2D rb;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        enemySpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        direction = (Vector2)(Player.Instance.transform.position - transform.position).normalized;
-        direction *= speed;
+        _direction = (Player.Instance.transform.position - transform.position).normalized;
+        _direction *= speed;
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = direction;
+        rb.velocity = _direction;
     }
 
-    public void takeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-            enemySpawner.decreaseNumEnemies();
-        }
+        if (health > 0) return;
+        Destroy(gameObject);
+        EnemyManager.DecreaseNumEnemies();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Player player = other.GetComponent<Player>();
-            player.takeDamage(damageDealt);
-        }
+        if (!other.gameObject.CompareTag("Player")) return;
+        var player = other.GetComponent<Player>();
+        player.takeDamage(damageDealt);
     }
 }

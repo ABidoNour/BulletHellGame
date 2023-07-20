@@ -27,8 +27,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xSpeed = Input.GetAxisRaw("Horizontal") * playerSpeed;
-        ySpeed = Input.GetAxisRaw("Vertical") * playerSpeed;
+        xSpeed = Input.GetAxisRaw("Horizontal");
+        ySpeed = Input.GetAxisRaw("Vertical");
+        
         if (Input.GetButtonDown("Fire1"))
         {
             Instantiate(bulletPrefab);
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(xSpeed, ySpeed);
+        rb.velocity = new Vector2(xSpeed, ySpeed).normalized * playerSpeed;
         Debug.Log(health);
     }
 

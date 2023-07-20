@@ -4,46 +4,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Instance { get; private set; }
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float circleRadius = 24f;
     [SerializeField] private float enemySpawnTime = 1f;
+    private static int _numEnemies;
     public int maxEnemies = 3;
-    public int numEnemies;
+    
     private Random _rand = new Unity.Mathematics.Random(5);
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        numEnemies = 0;
-        StartCoroutine(spawnEnemy());
+        Instance = this;
+        StartCoroutine(SpawnEnemy());
     }
 
-    IEnumerator spawnEnemy()
+    private IEnumerator SpawnEnemy()
     {
         print("Started");
         while (true)
         {
-            if (numEnemies < maxEnemies)
+            if (_numEnemies < maxEnemies)
             {
                 Vector3 pointOfSpawn = getRandomPointOnCircle();
-                Instantiate(enemyPrefab, pointOfSpawn, Quaternion.identity);
-                numEnemies++;
+                Instantiate(enemyPrefab, pointOfSpawn, Quaternion.identity, transform);
+                _numEnemies++;
             }
 
             yield return new WaitForSeconds(enemySpawnTime);
         }
     }
 
-    Vector2 getRandomPointOnCircle()
+    private Vector2 getRandomPointOnCircle()
     {
-        float angleInRadians = _rand.NextFloat(0, 2 * Mathf.PI);
+        var angleInRadians = _rand.NextFloat(0, 2 * Mathf.PI);
         return new Vector2(circleRadius * Mathf.Cos(angleInRadians), circleRadius * Mathf.Sin(angleInRadians));
     }
 
-    public void decreaseNumEnemies()
+    public static void DecreaseNumEnemies()
     {
-        numEnemies--;
+        _numEnemies--;
     }
 }
