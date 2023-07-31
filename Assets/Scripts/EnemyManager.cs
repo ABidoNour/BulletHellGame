@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
+using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -10,13 +11,15 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float enemySpawnTime = 1f;
     private static int _numEnemies;
     public int maxEnemies = 3;
-
-    private Random _rand = new Random(5);
+    
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     private void Start()
     {
-        Instance = this;
         StartCoroutine(SpawnEnemy());
     }
 
@@ -26,7 +29,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (_numEnemies < maxEnemies)
             {
-                Vector3 pointOfSpawn = getRandomPointOnCircle();
+                Vector3 pointOfSpawn = getRandomPointOnCircle(Player.Instance.transform.position);
                 Instantiate(enemyPrefab, pointOfSpawn, Quaternion.identity, transform);
                 _numEnemies++;
             }
@@ -35,10 +38,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private Vector2 getRandomPointOnCircle()
+    private Vector2 getRandomPointOnCircle(Vector2 center)
     {
-        var angleInRadians = _rand.NextFloat(0, 2 * Mathf.PI);
-        return new Vector2(circleRadius * Mathf.Cos(angleInRadians), circleRadius * Mathf.Sin(angleInRadians));
+        var angleInRadians = Random.Range(0, 2 * Mathf.PI);
+        return new Vector2(circleRadius * Mathf.Cos(angleInRadians), circleRadius * Mathf.Sin(angleInRadians)) + center;
     }
 
     public static void DecreaseNumEnemies()

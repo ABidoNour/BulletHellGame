@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -12,10 +13,14 @@ public class Player : MonoBehaviour
     private float ySpeed;
     public Rigidbody2D rb;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         health = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
     }
