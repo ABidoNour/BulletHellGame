@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -29,7 +25,7 @@ public class Player : MonoBehaviour
     {
         xSpeed = Input.GetAxisRaw("Horizontal");
         ySpeed = Input.GetAxisRaw("Vertical");
-        
+
         if (Input.GetButtonDown("Fire1"))
         {
             Instantiate(bulletPrefab);
@@ -39,7 +35,6 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(xSpeed, ySpeed).normalized * playerSpeed;
-        Debug.Log(health);
     }
 
     public void takeDamage(float damage)

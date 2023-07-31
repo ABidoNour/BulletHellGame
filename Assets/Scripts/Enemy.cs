@@ -1,13 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float health;
     [SerializeField] private float speed;
-    [SerializeField] private float damageDealt;
+    [SerializeField] private float damage;
+    private const float CooldownTimeSecs = .5f;
     private Vector2 _direction;
     public Rigidbody2D rb;
 
@@ -22,18 +21,23 @@ public class Enemy : MonoBehaviour
         rb.velocity = _direction;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damageTake)
     {
-        health -= damage;
+        health -= damageTake;
         if (health > 0) return;
         Destroy(gameObject);
         EnemyManager.DecreaseNumEnemies();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private readonly Func<bool> _canAttack = Timer.Start(CooldownTimeSecs);
+    private bool CanAttack => _canAttack();
+
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.gameObject.CompareTag("Player")) return;
+        if (!other.gameObject.CompareTag("Player") || !CanAttack) return;
+
         var player = other.GetComponent<Player>();
-        player.takeDamage(damageDealt);
+        player.takeDamage(damage);
     }
 }

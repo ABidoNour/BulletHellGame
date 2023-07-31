@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
@@ -12,8 +10,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float enemySpawnTime = 1f;
     private static int _numEnemies;
     public int maxEnemies = 3;
-    
-    private Random _rand = new Unity.Mathematics.Random(5);
+
+    private Random _rand = new Random(5);
 
     // Start is called before the first frame update
     private void Start()
@@ -24,7 +22,6 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
-        print("Started");
         while (true)
         {
             if (_numEnemies < maxEnemies)
