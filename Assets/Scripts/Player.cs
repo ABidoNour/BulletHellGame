@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float maxHealth;
     [SerializeField] private HealthBar healthbar;
+    private int amountOfMoney;
     private float health;
     private float xSpeed;
     private float ySpeed;
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(bulletPrefab);
         }
+
+        Debug.Log($"Money: {amountOfMoney}");
     }
 
     private void FixedUpdate()
@@ -50,5 +53,10 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void gainMoney(int value)
+    {
+        amountOfMoney += value;
     }
 }
