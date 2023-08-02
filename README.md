@@ -1,7 +1,7 @@
 # BulletHellGame
 Sick bullet hell game
 # TODO
-- Fix enemy Movement
-- Attach Camera to Player and damp movement
+- New enemies
+- Money and Upgrade System
 - Items?
-- Fix reference to enemy spawner in enemy script
+- Sprites
