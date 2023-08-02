@@ -1,14 +1,11 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float health;
     [SerializeField] private float speed;
     [SerializeField] private float damage;
-    [SerializeField] private GameObject coin;
     private const float CooldownTimeSecs = .5f;
     private Vector2 direction;
     public Rigidbody2D rb;
@@ -26,9 +23,10 @@ public class Enemy : MonoBehaviour
         {
             rb.velocity = direction;
         }
+        //TODO
         // else
         // {
-        //     rb.velocity = new Vector2(0,0);
+        //     rb.velocity = -rb.velocity * 10;
         // }
         
     }
@@ -37,10 +35,11 @@ public class Enemy : MonoBehaviour
     {
         health -= damageTake;
         if (health > 0) return;
+        
         var positionOfDeath = transform.position;
         Destroy(gameObject);
-        Instantiate(coin, positionOfDeath, quaternion.identity);
         EnemyManager.DecreaseNumEnemies();
+        CoinManager.Instance.SpawnCoins(positionOfDeath);
     }
 
 
