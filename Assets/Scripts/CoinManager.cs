@@ -1,11 +1,25 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
-    public int numCoins;
+
+    private int _numCoins;
+
+    private int NumCoins
+    {
+        get => _numCoins;
+        set
+        {
+            _numCoins = value;
+            coinText.text = NumCoins.ToString();
+        }
+    }
+
     [SerializeField] private GameObject coin;
+    [SerializeField] private Text coinText;
 
     private void Awake()
     {
@@ -19,6 +33,6 @@ public class CoinManager : MonoBehaviour
 
     public void GainMoney(int value)
     {
-        numCoins += value;
+        NumCoins += value;
     }
 }

@@ -13,7 +13,7 @@ public class Coin : MonoBehaviour
 
     private void Update()
     {
-        float distance = Vector3.Distance(transform.position, Player.Instance.transform.position);
+        float distance = transform.position.DistanceTo(Player.Instance.transform.position);
         if (distance < minMagnetDistance) _attractedToPlayer = true;
         if (distance > maxMagnetDistance) _attractedToPlayer = false;
         
