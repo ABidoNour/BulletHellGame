@@ -5,3 +5,6 @@ Sick bullet hell game
 - Money and Upgrade System
 - Items?
 - Sprites
+# COME BACK TO
+- Movement
+- Enemy Movement
