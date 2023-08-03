@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Coin : MonoBehaviour
 {
@@ -10,13 +13,24 @@ public class Coin : MonoBehaviour
     private bool _attractedToPlayer = false;
     public Rigidbody2D rb;
 
+    private void Start()
+    {
+        StartCoroutine(GameObjectTimer());
+    }
+
+    private IEnumerator GameObjectTimer()
+    {
+        const float secondsToDespawn = 15;
+        yield return new WaitForSeconds(secondsToDespawn);
+        Destroy(gameObject);
+    }
 
     private void Update()
     {
         float distance = transform.position.DistanceTo(Player.Instance.transform.position);
         if (distance < minMagnetDistance) _attractedToPlayer = true;
         if (distance > maxMagnetDistance) _attractedToPlayer = false;
-        
+
         if (_attractedToPlayer)
         {
             _direction = (Player.Instance.transform.position - transform.position).normalized;

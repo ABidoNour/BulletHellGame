@@ -802,9 +802,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6240306581767765989, guid: bc977aa80e239c0499738710ca24a55a, type: 3}
-  circleRadius: 24
+  circleRadius: 27
   enemySpawnTime: 1
-  maxEnemies: 3
+  enemyWaveIncrementSeconds: 15
+  enemyNumIncrements: 4
+  currMaxEnemies: 3
 --- !u!4 &850338189
 Transform:
   m_ObjectHideFlags: 0

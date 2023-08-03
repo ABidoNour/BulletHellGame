@@ -1,41 +1,57 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
-    public static EnemyManager Instance { get; private set; }
+    // public static EnemyManager Instance { get; private set; }
     [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private float circleRadius = 24f;
+    [SerializeField] private float circleRadius = 27f;
     [SerializeField] private float enemySpawnTime = 1f;
+    [SerializeField] private float enemyWaveIncrementSeconds = 60f;
+    [SerializeField] private int enemyNumIncrements = 4;
     private static int _numEnemies;
-    public int maxEnemies = 3;
-    
+    public int currMaxEnemies = 3;
+    private const int MostPossibleEnemies = 25;
+
     private void Awake()
     {
-        Instance = this;
+
     }
 
-    // Start is called before the first frame update
     private void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(IncrementEnemyWaves());
     }
 
-    private IEnumerator SpawnEnemy()
+    private IEnumerator IncrementEnemyWaves()
+    {
+        while (currMaxEnemies < MostPossibleEnemies)
+        {
+            yield return new WaitForSeconds(enemyWaveIncrementSeconds);
+            currMaxEnemies += enemyNumIncrements;
+            for (int i = 0; i < enemyNumIncrements; i++) SpawnEnemy();
+        }
+    }
+
+    private IEnumerator SpawnEnemyRoutine()
     {
         while (true)
         {
-            if (_numEnemies < maxEnemies)
-            {
-                Vector3 pointOfSpawn = getRandomPointOnCircle(Player.Instance.transform.position);
-                Instantiate(enemyPrefab, pointOfSpawn, Quaternion.identity, transform);
-                _numEnemies++;
-            }
-
+            SpawnEnemy();
             yield return new WaitForSeconds(enemySpawnTime);
         }
+    }
+
+    private void SpawnEnemy()
+    {
+        if (_numEnemies >= currMaxEnemies) return;
+        Vector3 pointOfSpawn = getRandomPointOnCircle(Player.Instance.transform.position);
+        Instantiate(enemyPrefab, pointOfSpawn, Quaternion.identity, transform);
+        _numEnemies++;
     }
 
     private Vector2 getRandomPointOnCircle(Vector2 center)

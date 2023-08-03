@@ -23,12 +23,6 @@ public class Enemy : MonoBehaviour
         {
             rb.velocity = direction;
         }
-        //TODO
-        // else
-        // {
-        //     rb.velocity = -rb.velocity * 10;
-        // }
-        
     }
 
     public void TakeDamage(float damageTake)
@@ -41,8 +35,7 @@ public class Enemy : MonoBehaviour
         EnemyManager.DecreaseNumEnemies();
         CoinManager.Instance.SpawnCoins(positionOfDeath);
     }
-
-
+    
     private readonly Func<bool> canAttack = Timer.Start(CooldownTimeSecs);
     private bool CanAttack => canAttack();
 
