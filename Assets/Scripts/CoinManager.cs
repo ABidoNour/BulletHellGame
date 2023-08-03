@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class CoinManager : MonoBehaviour
     }
 
     [SerializeField] private GameObject coin;
-    [SerializeField] private Text coinText;
+    [SerializeField] private TextMeshProUGUI coinText;
 
     private void Awake()
     {

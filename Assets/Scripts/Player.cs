@@ -18,17 +18,16 @@ public class Player : MonoBehaviour
     {
         Instance = this;
     }
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         health = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
+        if (Time.timeScale == 0f) return;
         xSpeed = Input.GetAxisRaw("Horizontal");
         ySpeed = Input.GetAxisRaw("Vertical");
 
@@ -36,8 +35,6 @@ public class Player : MonoBehaviour
         {
             Instantiate(bulletPrefab);
         }
-
-        Debug.Log($"Money: {amountOfMoney}");
     }
 
     private void FixedUpdate()
